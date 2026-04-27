@@ -7,8 +7,8 @@
   <!-- jQuery (required by SpriteSpin 4.x) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Correct SpriteSpin 4.0.11 build -->
-  <script src="https://rawcdn.githack.com/carrot/spritespin/v4.0.11/release/spritespin.js"></script>
+  <!-- Guaranteed working SpriteSpin 4.0.11 build -->
+  <script src="https://cdn.jsdelivr.net/gh/carrot/spritespin@4.0.11/release/spritespin.js"></script>
 
   <style>
     html, body {
@@ -29,27 +29,29 @@
   <div id="viewer"></div>
 
   <script>
-    const frames = [];
-    for (let i = 1; i <= 250; i++) {
-      const num = String(i).padStart(4, '0');
-      frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
-    }
+    $(function() {
+      const frames = [];
+      for (let i = 1; i <= 250; i++) {
+        const num = String(i).padStart(4, '0');
+        frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
+      }
 
-    SpriteSpin.create({
-      target: $("#viewer"),
-      source: frames,
-      width: 800,
-      height: 800,
-      responsive: true,
-      sense: -1,
-      animate: false,
-      loop: true,
-      renderer: 'canvas',
-      plugins: ['drag', 'zoom'],
-      inertia: true,
-      zoomMax: 3,
-      zoomMin: 1,
-      zoomStep: 0.1
+      SpriteSpin.create({
+        target: $("#viewer"),
+        source: frames,
+        width: 800,
+        height: 800,
+        responsive: true,
+        sense: -1,
+        animate: false,
+        loop: true,
+        renderer: 'canvas',
+        plugins: ['drag', 'zoom'],
+        inertia: true,
+        zoomMax: 3,
+        zoomMin: 1,
+        zoomStep: 0.1
+      });
     });
   </script>
 </body>
