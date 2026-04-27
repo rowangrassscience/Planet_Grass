@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <title>Earth Viewer</title>
 
-  <!-- jQuery (required by SpriteSpin) -->
+  <!-- jQuery (required by SpriteSpin 4.x) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- SpriteSpin -->
-  <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.js"></script>
+  <!-- Correct SpriteSpin 4.0.11 build -->
+  <script src="https://rawcdn.githack.com/carrot/spritespin/v4.0.11/release/spritespin.js"></script>
 
   <style>
     html, body {
@@ -36,7 +36,7 @@
     }
 
     SpriteSpin.create({
-      target: $("#viewer"),   // IMPORTANT FIX
+      target: $("#viewer"),
       source: frames,
       width: 800,
       height: 800,
