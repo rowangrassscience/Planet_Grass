@@ -64,7 +64,7 @@
       var x = e.pageX || e.originalEvent.touches[0].pageX;
       var dx = x - self.lastX;
       self.lastX = x;
-      self.frame = (self.frame - Math.sign(dx) + self.frames.length) % self.frames.length;
+      self.frame = (self.frame + Math.sign(dx) + self.frames.length) % self.frames.length;
       self.draw();
     });
 
