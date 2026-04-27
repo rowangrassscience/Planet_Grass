@@ -8,6 +8,8 @@
     this.zoom = 1;
     this.dragging = false;
     this.lastX = 0;
+    this.images = [];
+    this.firstLoaded = false;
     this.init();
   }
 
@@ -23,18 +25,20 @@
     function resize(){
       self.canvas.width = self.$target.width();
       self.canvas.height = self.$target.height();
-      self.draw();
+      if (self.firstLoaded) self.draw();
     }
     $(window).on("resize", resize);
     resize();
 
-    // Load first frame
-    self.images = [];
+    // Load frames
     self.frames.forEach(function(src, i){
       var img = new Image();
       img.onload = function(){
         self.images[i] = img;
-        if(i === 0) self.draw();
+        if (i === 0) {
+          self.firstLoaded = true;
+          self.draw();
+        }
       };
       img.src = src;
     });
@@ -69,7 +73,7 @@
 
   SpriteSpin.prototype.draw = function(){
     var img = this.images[this.frame];
-    if(!img) return;
+    if (!img) return; // Prevent crash before images load
 
     var ctx = this.ctx;
     var w = this.canvas.width;
@@ -91,4 +95,3 @@
   global.SpriteSpin = SpriteSpin;
 
 })(window, jQuery);
-
