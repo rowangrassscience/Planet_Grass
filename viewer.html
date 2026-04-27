@@ -1,6 +1,54 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="UTF-8">
+  <title>Earth Viewer</title>
+
+  <!-- SpriteSpin -->
+  <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.js"></script>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000; /* optional: looks nicer while loading */
+    }
+    #viewer {
+      width: 100%;
+      height: 100%;
+      touch-action: none; /* improves mobile drag/zoom */
+    }
+  </style>
+</head>
+
 <body>
-  <img src="https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin0001.webp" style="width:100%;height:auto;">
+  <div id="viewer"></div>
+
+  <script>
+    // Build frame list automatically
+    const frames = [];
+    for (let i = 1; i <= 250; i++) {
+      const num = String(i).padStart(4, '0');
+      frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
+    }
+
+    SpriteSpin.create({
+      target: "#viewer",
+      source: frames,
+      width: 800,
+      height: 800,
+      responsive: true,
+      sense: -1,
+      animate: false,
+      loop: true,
+      renderer: 'canvas',
+      plugins: ['drag', 'zoom'],
+      inertia: true,
+      zoomMax: 3,
+      zoomMin: 1,
+      zoomStep: 0.1
+    });
+  </script>
 </body>
 </html>
