@@ -25,7 +25,11 @@
     function resize(){
       self.canvas.width = self.$target.width();
       self.canvas.height = self.$target.height();
-      if (self.firstLoaded) self.draw();
+
+      // IMPORTANT FIX: do NOT draw until first image is loaded
+      if (self.firstLoaded) {
+        self.draw();
+      }
     }
     $(window).on("resize", resize);
     resize();
@@ -35,6 +39,8 @@
       var img = new Image();
       img.onload = function(){
         self.images[i] = img;
+
+        // When the first frame loads, mark ready and draw
         if (i === 0) {
           self.firstLoaded = true;
           self.draw();
@@ -54,7 +60,7 @@
     });
 
     self.$target.on("mousemove touchmove", function(e){
-      if(!self.dragging) return;
+      if(!self.dragging || !self.firstLoaded) return;
       var x = e.pageX || e.originalEvent.touches[0].pageX;
       var dx = x - self.lastX;
       self.lastX = x;
@@ -64,6 +70,7 @@
 
     // Zoom
     self.$target.on("wheel", function(e){
+      if (!self.firstLoaded) return;
       e.preventDefault();
       self.zoom += (e.originalEvent.deltaY < 0 ? 0.1 : -0.1);
       self.zoom = Math.max(self.opts.zoomMin || 1, Math.min(self.opts.zoomMax || 3, self.zoom));
@@ -73,7 +80,9 @@
 
   SpriteSpin.prototype.draw = function(){
     var img = this.images[this.frame];
-    if (!img) return; // Prevent crash before images load
+
+    // IMPORTANT FIX: prevent drawing before image exists
+    if (!img) return;
 
     var ctx = this.ctx;
     var w = this.canvas.width;
