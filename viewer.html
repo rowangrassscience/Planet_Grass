@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Earth Viewer</title>
 
+  <!-- jQuery (required by SpriteSpin) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <!-- SpriteSpin -->
   <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.js"></script>
 
@@ -12,12 +15,12 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000; /* optional: looks nicer while loading */
+      background: #000;
     }
     #viewer {
       width: 100%;
       height: 100%;
-      touch-action: none; /* improves mobile drag/zoom */
+      touch-action: none;
     }
   </style>
 </head>
@@ -26,7 +29,6 @@
   <div id="viewer"></div>
 
   <script>
-    // Build frame list automatically
     const frames = [];
     for (let i = 1; i <= 250; i++) {
       const num = String(i).padStart(4, '0');
