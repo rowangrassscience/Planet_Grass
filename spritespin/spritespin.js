@@ -5,7 +5,7 @@
     this.$target = opts.target;
     this.frames = opts.source || [];
     this.frame = 0;
-    this.zoom = 1;
+    this.zoom = this.opts.zoomMin || 1;
     this.dragging = false;
     this.lastX = 0;
     this.images = [];
