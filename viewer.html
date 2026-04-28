@@ -5,7 +5,7 @@
   <title>Earth Viewer</title>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://rowangrassscience.github.io/Planet_Grass/spritespin/spritespin.js"></script>
+  <script src="https://rowangrassscience.github.io/Planet_Grass/spritespin/spritespin.js?v=2"></script>
 
   <style>
     html, body {
@@ -30,34 +30,58 @@
 <body>
   <div id="viewer"></div>
 
-<script>
-function enforceAspect() {
-  const viewer = document.getElementById("viewer");
-  const w = viewer.clientWidth;
-  const h = Math.round(w * 9 / 16);
-  viewer.style.height = h + "px";
-}
-</script>
-
-<script>
-$(function() {
-  // 1. Set aspect before SpriteSpin runs
-  enforceAspect();
-
-  // 2. Create SpriteSpin
-  const spin = SpriteSpin.create({...});
-
-  // 3. After first frame loads, enforce again
-  const wait = setInterval(() => {
-    if (spin.firstLoaded) {
-      enforceAspect();
-      clearInterval(wait);
+  <!-- Script block 1: aspect ratio logic -->
+  <script>
+    function enforceAspect() {
+      const viewer = document.getElementById("viewer");
+      const w = viewer.clientWidth;
+      const h = Math.round(w * 9 / 16);
+      viewer.style.height = h + "px";
     }
-  }, 30);
+  </script>
 
-  // 4. On resize
-  window.addEventListener("resize", enforceAspect);
-});
-</script>
+  <!-- Script block 2: SpriteSpin + timing -->
+  <script>
+    $(function() {
+
+      // 1. Set aspect BEFORE SpriteSpin runs
+      enforceAspect();
+
+      // Build frame list
+      const frames = [];
+      for (let i = 1; i <= 250; i++) {
+        const num = String(i).padStart(4, '0');
+        frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
+      }
+
+      // 2. Create SpriteSpin
+      const spin = SpriteSpin.create({
+        target: $("#viewer"),
+        source: frames,
+        responsive: true,
+        sense: -1,
+        animate: false,
+        loop: true,
+        renderer: 'canvas',
+        plugins: ['drag', 'zoom'],
+        inertia: true,
+        zoomMax: 3,
+        zoomMin: 0.3,
+        zoomStep: 0.1
+      });
+
+      // 3. After first frame loads, enforce again
+      const wait = setInterval(() => {
+        if (spin.firstLoaded) {
+          enforceAspect();
+          clearInterval(wait);
+        }
+      }, 30);
+
+      // 4. On resize
+      window.addEventListener("resize", enforceAspect);
+    });
+  </script>
+
 </body>
 </html>
