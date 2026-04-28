@@ -96,6 +96,15 @@
 
     ctx.drawImage(img, (w - iw)/2, (h - ih)/2, iw, ih);
   };
+  
+  function enforceAspect() {
+    const viewer = document.getElementById("viewer");
+    const w = viewer.clientWidth;
+    const h = Math.round(w * 9 / 16);
+    viewer.style.height = h + "px";
+  }
+  window.addEventListener("resize", enforceAspect);
+  enforceAspect();
 
   SpriteSpin.create = function(opts){
     return new SpriteSpin(opts);
