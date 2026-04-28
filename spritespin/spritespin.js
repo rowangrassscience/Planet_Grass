@@ -23,13 +23,13 @@
 
     // Resize
     function resize(){
-      self.canvas.width = self.$target.width();
-      self.canvas.height = self.$target.height();
-
-      // IMPORTANT FIX: do NOT draw until first image is loaded
-      if (self.firstLoaded) {
-        self.draw();
-      }
+      var w = self.$target[0].clientWidth;
+      var h = self.$target[0].clientHeight;
+    
+      self.canvas.width = w;
+      self.canvas.height = h;
+    
+      if (self.firstLoaded) self.draw();
     }
     $(window).on("resize", resize);
     resize();
