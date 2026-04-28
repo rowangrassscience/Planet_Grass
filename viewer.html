@@ -30,41 +30,52 @@
 <body>
   <div id="viewer"></div>
 
-  <script>
-    // Force viewer to 16:9
-    function enforceAspect() {
-      const viewer = document.getElementById("viewer");
-      const w = viewer.clientWidth;
-      const h = Math.round(w * 9 / 16);
-      viewer.style.height = h + "px";
+<script>
+  // Force viewer to 16:9
+  function enforceAspect() {
+    const viewer = document.getElementById("viewer");
+    const w = viewer.clientWidth;
+    const h = Math.round(w * 9 / 16);
+    viewer.style.height = h + "px";
+  }
+
+  $(function() {
+    const frames = [];
+    for (let i = 1; i <= 250; i++) {
+      const num = String(i).padStart(4, '0');
+      frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
     }
-    window.addEventListener("resize", enforceAspect);
-    enforceAspect();
 
-    $(function() {
-      const frames = [];
-      for (let i = 1; i <= 250; i++) {
-        const num = String(i).padStart(4, '0');
-        frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
-      }
-
-      SpriteSpin.create({
-        target: $("#viewer"),
-        source: frames,
-        width: null,   // IMPORTANT FIX
-        height: null,  // IMPORTANT FIX
-        responsive: true,
-        sense: -1,
-        animate: false,
-        loop: true,
-        renderer: 'canvas',
-        plugins: ['drag', 'zoom'],
-        inertia: true,
-        zoomMax: 3,
-        zoomMin: 0.3,
-        zoomStep: 0.1
-      });
+    // Create SpriteSpin
+    const spin = SpriteSpin.create({
+      target: $("#viewer"),
+      source: frames,
+      responsive: true,
+      sense: -1,
+      animate: false,
+      loop: true,
+      renderer: 'canvas',
+      plugins: ['drag', 'zoom'],
+      inertia: true,
+      zoomMax: 3,
+      zoomMin: 0.3,
+      zoomStep: 0.1
     });
-  </script>
+
+    // Run AFTER SpriteSpin creates the canvas
+    setTimeout(enforceAspect, 0);
+
+    // Run again AFTER first frame loads
+    const waitForLoad = setInterval(() => {
+      if (spin.firstLoaded) {
+        enforceAspect();
+        clearInterval(waitForLoad);
+      }
+    }, 30);
+
+    // Run on window resize
+    window.addEventListener("resize", enforceAspect);
+  });
+</script>
 </body>
 </html>
