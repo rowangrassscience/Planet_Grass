@@ -4,29 +4,26 @@
   <meta charset="UTF-8">
   <title>Earth Viewer</title>
 
-  <!-- jQuery (required by SpriteSpin 4.x) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- SpriteSpin 4.1.0 (LEGIT + WORKING) -->
- <script src="https://rowangrassscience.github.io/Planet_Grass/spritespin/spritespin.js"></script>
+  <script src="https://rowangrassscience.github.io/Planet_Grass/spritespin/spritespin.js"></script>
 
   <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    overflow: hidden;
-    width: 100%;
-    height: auto;
-  }
-  
-#viewer {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-width: 700px;
-  margin: 0 auto;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+      width: 100%;
+      height: auto;
+    }
 
+    #viewer {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #000;
+    }
   </style>
 </head>
 
@@ -34,6 +31,16 @@
   <div id="viewer"></div>
 
   <script>
+    // Force viewer to 16:9
+    function enforceAspect() {
+      const viewer = document.getElementById("viewer");
+      const w = viewer.clientWidth;
+      const h = Math.round(w * 9 / 16);
+      viewer.style.height = h + "px";
+    }
+    window.addEventListener("resize", enforceAspect);
+    enforceAspect();
+
     $(function() {
       const frames = [];
       for (let i = 1; i <= 250; i++) {
@@ -44,8 +51,8 @@
       SpriteSpin.create({
         target: $("#viewer"),
         source: frames,
-        width: 800,
-        height: 800,
+        width: null,   // IMPORTANT FIX
+        height: null,  // IMPORTANT FIX
         responsive: true,
         sense: -1,
         animate: false,
