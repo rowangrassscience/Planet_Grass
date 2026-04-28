@@ -31,7 +31,7 @@
   <div id="viewer"></div>
 
 <script>
-  // Force viewer to 16:9
+  // 1. Force viewer to 16:9 BEFORE SpriteSpin runs
   function enforceAspect() {
     const viewer = document.getElementById("viewer");
     const w = viewer.clientWidth;
@@ -39,14 +39,17 @@
     viewer.style.height = h + "px";
   }
 
-  $(function() {
+  // Run immediately after DOM loads
+  document.addEventListener("DOMContentLoaded", () => {
+    enforceAspect();
+
     const frames = [];
     for (let i = 1; i <= 250; i++) {
       const num = String(i).padStart(4, '0');
       frames.push(`https://rowangrassscience.github.io/Planet_Grass/earth_spin_webp/earth_spin${num}.webp`);
     }
 
-    // Create SpriteSpin
+    // 2. Create SpriteSpin AFTER viewer height is set
     const spin = SpriteSpin.create({
       target: $("#viewer"),
       source: frames,
@@ -62,10 +65,7 @@
       zoomStep: 0.1
     });
 
-    // Run AFTER SpriteSpin creates the canvas
-    setTimeout(enforceAspect, 0);
-
-    // Run again AFTER first frame loads
+    // 3. Run again AFTER first frame loads
     const waitForLoad = setInterval(() => {
       if (spin.firstLoaded) {
         enforceAspect();
@@ -73,7 +73,7 @@
       }
     }, 30);
 
-    // Run on window resize
+    // 4. Run on window resize
     window.addEventListener("resize", enforceAspect);
   });
 </script>
