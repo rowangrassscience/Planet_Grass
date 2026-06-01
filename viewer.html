@@ -19,7 +19,6 @@
 <body>
 <div id="viewer"></div>
 
-<!-- Three.js ES Modules -->
 <script type="module">
   import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
   import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
@@ -46,14 +45,12 @@
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  // Lighting
   const light = new THREE.DirectionalLight(0xffffff, 1.2);
   light.position.set(5, 5, 5);
   scene.add(light);
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-  // Load your GLB
   const loader = new GLTFLoader();
   loader.load(
     "https://static.wixstatic.com/3d/9854fb_b062b348c1eb4635a6d09ad46a3903e8.glb",
@@ -78,5 +75,6 @@
     camera.updateProjectionMatrix();
   });
 </script>
+
 </body>
 </html>
